@@ -1,0 +1,36 @@
+﻿
+@model UsuarioModel
+
+<button
+class="navbar-toggler text-light"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#sidebarMenu"
+aria-controls="sidebarMenu"
+aria-expanded="false"
+aria-label="Toggle navigation"
+>
+<i class="fas fa-bars"></i>
+</button>
+
+<a class="navbar-brand mx-2" href="#" style="color:white">
+<img
+    src="~/logotcc2.png"
+    height="35"
+    alt="Logo da Minha Empresa"
+    loading="lazy"
+/>
+<!-- EM CE -->
+Web Process
+</a>
+          
+<ul class="navbar-nav ms-auto d-flex flex-row">
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle bi bi-person-circle text-light"  href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+		Usuario: @Model.Nome
+	</a>
+	<ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+		<li><a class="dropdown-item" asp-area="" asp-controller="Login" asp-action="Sair">Sair</a></li>
+	</ul>
+</li>
+</ul>

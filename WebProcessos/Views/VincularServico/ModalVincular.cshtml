@@ -1,0 +1,47 @@
+﻿@model ViewModelModalVincular
+
+@{
+    ViewData["Title"] = "Vincular Servico";
+}
+
+<form asp-controller="VincularServico" asp-action="Vincular" method="post">
+    <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Vincular</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+    </div>
+    <div class="modal-body">
+        <div class="mb-12">
+            <div class="mb-6">
+                <label for="ddlServico" class="form-label">Serviços</label>
+                <select class="form-select" id="ddlServico" name="ServicoId">
+                    @if (Model.ListaServico != null && Model.ListaServico.Any())
+                    {
+                        foreach (var servico in Model.ListaServico)
+                        {
+                            <option value="@servico.Id">@servico.NomeServico</option>
+                        }
+                    }
+                </select>
+            </div>
+            <br>
+            <div class="d-flex justify-content-center">
+                <i class="bi bi-arrow-down-up fa-2x"></i>
+            </div>
+            <div class="mb-6">
+                <label for="ddlUsuario" class="form-label">Usuario</label>
+                <select class="form-select" id="ddlUsuario" name="UsuarioId">
+                    @if (Model.ListaClientes != null && Model.ListaClientes.Any())
+                    {
+                        foreach (var Clientes in Model.ListaClientes)
+                        {
+                            <option value="@Clientes.Id">@Clientes.Nome</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Vincular</button>
+            </div>
+        </div>
+    </div>
+</form>

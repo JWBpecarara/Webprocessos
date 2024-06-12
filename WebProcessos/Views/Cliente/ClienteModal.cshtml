@@ -1,0 +1,48 @@
+﻿@model ClienteModel
+
+@{
+	ViewData["Title"] = "Cliente";
+}
+
+<form asp-controller="Cliente" asp-action="Atualizar" method="post">
+	<input type="hidden" asp-for="Id"/>
+	<div class="modal-header">
+		<h5 class="modal-title" id="editarUserModalLabel">Editar Usuários</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label for="nome" class="form-label">Nome</label>
+					<input type="text" class="form-control" asp-for="Nome" />
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label for="sobrenome" class="form-label">Sobrenome</label>
+					<input type="text" class="form-control" asp-for="SobreNome" />
+				</div>
+			</div>
+		</div>
+		<div class="mb-3">
+			<label for="Cpf" class="form-label">CPF</label>
+			<input type="text" class="form-control" asp-for="CPF" />
+		</div>
+		<div class="mb-3">
+			<label for="email" class="form-label">Email</label>
+			<input type="text" class="form-control" asp-for="Email" />
+		</div>
+		<div class="mb-3">
+			<label for="Telefone" class="form-label">Telefone</label>
+			<input type="text"  class="form-control" asp-for="Telefone" />
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+		<button type="submit" class="btn btn-success" data-bs-dismiss="modal">Salvar</button>
+	</div>
+</form>
+
+
+

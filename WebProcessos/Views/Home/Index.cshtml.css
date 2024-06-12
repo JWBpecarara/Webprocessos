@@ -1,0 +1,13 @@
+﻿
+
+.carousel-item {
+    text-align: center;
+}
+
+
+#divtext {
+    border-radius: 10px;
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 25px;
+}

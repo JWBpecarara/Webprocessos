@@ -1,0 +1,22 @@
+﻿@model ClienteModel
+
+@{
+	ViewData["Title"] = "Cliente";
+}
+
+<div class="modal-header">
+	<h5 class="modal-title">Exibir Senha</h5>
+	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+	<div class="mb-3">
+		<label  class="form-label">Senha:</label>
+		<input type="text" style="text-align:center" class="form-control"  value="@Model.Senha" readonly/>
+	</div>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+</div>
+
+
+

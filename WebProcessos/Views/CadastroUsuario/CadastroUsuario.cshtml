@@ -1,0 +1,83 @@
+﻿@model CadastroUsuarioModel
+@{
+	Layout = "_LayoutDeslogado";
+	ViewData["TITLE"] = "Login";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Cadastro de Novo Usuário</title>
+</head>
+<body>
+
+<form asp-controller="CadastroUsuario" asp-action="AddUsuario" method="post">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-12">
+				<div class="registration-container mt-5">
+					<div class="card-header">
+						<h3 class="text-center">Cadastro de Novo Usuário</h3>
+					</div>
+					<div class="card-body">
+						<div class="text-center logo-space">
+							<img src="~/logotcc2.png" alt="Sua Logo" width="100">
+						</div>
+						<form>
+							<div class="mb-3">
+								<label for="login" class="form-label">Login</label>
+								<input type="text" class="form-control" asp-for="Usuario.Login" placeholder="Digite seu login">
+							</div>
+							<div class="mb-3">
+								<label for="login" class="form-label">Nome fantasia</label>
+								<input type="text" class="form-control" asp-for="Usuario.Login" placeholder="Digite o nome do seu negocio">
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="mb-3">
+										<label for="nome" class="form-label">Nome</label>
+										<input type="text" class="form-control" asp-for="Usuario.Nome" placeholder="Digite seu nome">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="mb-3">
+										<label for="sobrenome" class="form-label">Sobrenome</label>
+										<input type="text" class="form-control" asp-for="Usuario.SobreNome" placeholder="Digite seu sobrenome">
+									</div>
+								</div>
+							</div>
+							<div class="mb-3">
+								<label for="cpf" class="form-label">CPF</label>
+								<input type="text" class="form-control" asp-for="Usuario.CPF" placeholder="Digite seu CPF">
+							</div>
+							<div class="mb-3">
+								<label for="email" class="form-label">Email</label>
+								<input type="text" class="form-control" asp-for="Usuario.Email" placeholder="Digite seu email">
+							</div>
+							<div class="mb-3">
+								<label for="senha" class="form-label">Senha</label>
+								<input type="password" class="form-control" asp-for="Usuario.Senha" placeholder="Digite sua senha">
+							</div>
+							<div class="mb-3">
+								<label for="txtSenhaConf" class="form-label">Senha</label>
+								<input type="password" class="form-control" asp-for="SenhaConf" placeholder="Confirme sua senha">
+							</div>
+							<div class="mb-3">
+								<label for="telefone" class="form-label">Número de Telefone</label>
+								<input type="text" class="form-control" asp-for="Usuario.Telefone" placeholder="Digite seu Telefone">
+							</div>
+							<button type="submit" class="btn btn-success w-100">Cadastrar</button>
+						</form>
+					</div>
+					<div class="card-footer">
+						<p class="text-center">Já tem uma conta? <a asp-area="" asp-controller="Login" asp-action="Login" class="text-white">Faça o login</a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+</body>
+</html>

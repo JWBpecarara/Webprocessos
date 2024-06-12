@@ -1,0 +1,102 @@
+﻿@model ViewModelGerenciamento
+@{
+    ViewData["Title"] = "Gerenciamento";
+}
+
+<form asp-controller="VincularServico" asp-action="Atualizar" method="post">
+<div class="container mt-5">
+    <div id="divPrincipal" class="row">
+        <h2 class="mb-4">Etapas</h2>
+        <br>
+        <div class="col-md-8">
+            <div>
+                <input type="hidden" name="id" asp-for="@Model.Servico.Id"/>
+                <label for="Nome Cliente" class="form-label">Nome Cliente</label>
+                <input type="text" class="form-control" value="@Model.Cliente.Nome" readonly>
+            </div>
+            <div>
+                <label for="Nome serviço" class="form-label">Serviço</label>
+                <input type="text" class="form-control" value="@Model.Servico.NomeServico" readonly>
+            </div>
+        </div>
+
+        <div class="col-md-12 mt-4">
+            <table id="divTable" class="table table-bordered table-striped">
+                <thead class="bg-primary text-white">
+                    <tr>
+                        <th>Nome</th>
+                        <th>Descrição</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.ListEtapa != null && Model.ListEtapa.Any())
+                    {
+                        foreach (EtapaModel Etap in Model.ListEtapa)
+                        {
+                            var statusClass = Etap.status == "vigente" ? "status-vigente" : (Etap.status == "finalizado" ? "status-finalizado" : "");
+                            <tr class="@statusClass">
+                                <td>@Etap.Nome</td>
+                                <td>@Etap.Descricao</td>
+                                <td>
+                                    <div>
+                                        <form asp-controller="VincularServico" asp-action="Vigente" method="post" class="d-inline">
+                                            <input type="hidden" name="Id" asp-for="@Etap.Id"/>
+                                            <button type="submit" class="btn btn-sm btn-success">Vigente</button>
+                                        </form>
+                                        <form asp-controller="VincularServico" asp-action="Finalizar" method="post" class="d-inline">
+                                            <input type="hidden" name="Id" asp-for="@Etap.Id"/>
+                                            <button type="submit" class="btn btn-sm btn-danger">Finalizado</button>
+                                        </form>
+                                        <form asp-controller="VincularServico" asp-action="Desvincular" method="post" class="d-inline">
+                                            <input type="hidden" name="Id" asp-for="@Etap.Id"/> 
+                                            <button type="submit" class="btn btn-sm btn-secondary">Desvincular</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body" style="text-align:center;">
+                    <h5 class="card-title">Visão do Usuários</h5>
+                    @if (Model.ListEtapa != null && Model.ListEtapa.Any(e => e.status == "vigente"))
+                    {
+                        EtapaModel etapaVinculada = Model.ListEtapa.FirstOrDefault(e => e.status == "vigente");
+                        <h8><strong>Serviço contratado encontra-se na etapa de:</strong></h8>
+                        <div class="mb-3" style="text-align:center;">
+                            <label for="nome" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="nome" style="text-align:center"  value="@etapaVinculada.Nome">
+                        </div>
+                        <h8><strong>Descrição</strong></h8>
+                        <div class="mb-3" style="text-align:center;">
+                            <label for="Descricao" class="form-label">Descrição</label>
+                            <textarea class="form-control" id="Descricao" style="text-align:center" rows="3">@etapaVinculada.Descricao</textarea>
+                        </div>
+                    }
+                    else
+                    {
+                        <p>Nenhuma etapa vinculada encontrada.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="container p-4">
+            <div class="row">
+                <div class="col text-start">
+                    <a class="btn btn-lg btn-danger" asp-area="" asp-controller="VincularServico" asp-action="Index">Sair</a>
+                </div>
+                <div class="col text-end">
+                    <button type="submit" class="btn btn-lg btn-success">Finalizar serivco</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</form>

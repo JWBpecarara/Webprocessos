@@ -1,0 +1,98 @@
+﻿@model ViewModelModalVincular
+@{
+	ViewData["Title"] = "Vincular Servico";
+}
+
+<div id="divPrincipal" class="container mt-5">
+
+
+	<h2 class="mb-4">Gerenciar Serviços</h2>
+	<button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#modalVincular">
+		<i class="bi bi-arrow-left-right me-3"></i><span>Vincular Serviços</span>
+	</button>
+	<div id="divTable">
+		<table class="table table-bordered table-striped">
+			<thead class="bg-primary text-white">
+				<tr>
+					<th>Nome cliente</th>
+					<th>CPF</th>
+					<th>Telefone</th>
+					<th>Nome Serviço</th>
+					<th>Preço</th>
+					<th>Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				@if (Model.ListaVinculados != null && Model.ListaVinculados.Any())
+				{
+					foreach (ViewModelVincular Vinculado in Model.ListaVinculados)
+					{
+						@if (Vinculado.Status != "Finalizado")
+                        {
+							<tr>
+								<td>@Vinculado.NomeCliente</td>
+								<td>@Vinculado.CPF</td>
+								<td>@Vinculado.Telefone</td>
+								<td>@Vinculado.NomeServico</td>
+								<td>@Vinculado.Preco</td>
+								<td>
+									<button type="button" class="btn btn-sm btn-primary btn-gerenciar" data-id="@Vinculado.ServicoVinId">Gerenciar</button>
+									<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#modalExcluir" data-id="@Vinculado.ServicoVinId">Excluir</button>
+								</td>
+							</tr>
+						}
+					}
+				}
+			</tbody>
+		</table>
+	</div>
+
+	<div class="modal fade" id="modalVincular" tabindex="-1" aria-labelledby="addmodalVincular" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div id="addmodalVincular"></div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="excluirUserModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content danger">
+
+				<div id="excluirUserModalContent"></div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+@section scripts{
+<script>
+
+	$('#modalExcluir').on('shown.bs.modal', function (event) {
+		var button = $(event.relatedTarget);
+		var id = button.data('id');
+
+		var url = '@Url.Action("ModalExcluir", "VincularServico")' + '?id=' + id;
+		$('#excluirUserModalContent').load(url);
+	});
+
+
+	$('#modalVincular').on('shown.bs.modal', function (event) {
+		var button = $(event.relatedTarget);
+		var url = '@Url.Action("ModalVincular", "VincularServico")';
+		$('#addmodalVincular').load(url);
+	});
+
+	$(document).on('click', '.btn-gerenciar', function () {
+		var button = $(this);
+		var id = button.data('id');
+    
+		var url = '@Url.Action("Gerenciamento", "VincularServico")' + '?id=' + id;
+		window.location.href = url; 
+	});
+</script>
+}

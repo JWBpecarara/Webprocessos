@@ -1,0 +1,71 @@
+﻿@model ViewModelServico
+@{
+	ViewData["Title"] = "Lista de Servico";
+}
+
+<div id="divPrincipal" class="container mt-5">
+
+	<h2 class="mb-4">Lista de Servico</h2>
+	<a class="btn btn-success mb-3" asp-area="" asp-controller="Servico" asp-action="ServicoCadastro"><i class="bi bi-clipboard2-plus me-3"></i><span>Novo Serviço</span></a>
+	<div id="divTable">
+		<table class="table table-bordered table-striped">
+			<thead class="bg-primary text-white">
+				<tr>
+					<th>ID</th>
+					<th>Nome</th>
+					<th>Preco</th>
+					<th>Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				@if (Model.ListaServico != null && Model.ListaServico.Any())
+				{
+					foreach (var servico in Model.ListaServico)
+					{
+						<tr>
+							<td>@servico.Id</td>
+							<td>@servico.NomeServico</td>
+							<td>@servico.Preco</td>
+							<td>
+								<button type="button" class="btn btn-sm btn-primary btn-editar" data-id="@servico.Id">Editar</button>
+								<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#modalExcluir" data-id="@servico.Id">Excluir</button>
+							</td>
+						</tr>					
+					}
+				}
+			</tbody>
+		</table>
+	</div>
+
+	<div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="excluirUserModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content danger">
+
+				<div id="excluirUserModalContent"></div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+@section scripts{
+	<script>
+
+		$('#modalExcluir').on('shown.bs.modal', function (event) {
+			var button = $(event.relatedTarget);
+			var id = button.data('id');
+
+			var url = '@Url.Action("ModalExcluir", "Servico")' + '?id=' + id;
+			$('#excluirUserModalContent').load(url);
+		});
+
+		$(document).on('click', '.btn-editar', function () {
+			var button = $(this);
+			var id = button.data('id');
+    
+			var url = '@Url.Action("Editar", "Servico")' + '?id=' + id;
+			window.location.href = url; 
+		});
+	</script>
+}

@@ -1,0 +1,34 @@
+﻿body {
+}
+
+
+#divPrincipal {
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background-image: linear-gradient(to bottom right, #0042a0, #007bff);
+    padding: 20px;
+}
+
+h2{
+    color: white;
+}
+
+
+#divTable {
+    background-color: white;
+}
+
+/* Estilo personalizado para o modal */
+.modal-content.danger {
+    background-color: rgba(255, 0, 0, 0.8); /* Cor de fundo vermelho opaco */
+    color: white; /* Texto em branco para melhor contraste */
+    border: none; /* Removendo a borda */
+}
+
+.modal-content.danger .modal-header {
+    border-bottom: none; /* Removendo a borda inferior do cabeçalho */
+}
+
+.modal-content.danger .modal-footer {
+    border-top: none; /* Removendo a borda superior do rodapé */
+}

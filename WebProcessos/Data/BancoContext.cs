@@ -11,9 +11,9 @@ namespace WebProcessos.Data
 
         public DbSet<ClienteModel> Cliente { get; set; }
         public DbSet<UsuarioModel> Usuario { get; set; }
-        public DbSet<EtapaPasadaModel> EtapaPasadaModel { get; set; }
+        public DbSet<OrdemServicoModel> OrdemServico { get; set; }
+        public DbSet<OrdemServico_EtapaModel> OrdemServico_Etapa { get; set; }
         public DbSet<EtapaModel> Etapa { get; set; }
-        public DbSet<ServicoVinculadoModel> ServicoVinculado { get; set; }
         public DbSet<ServicoModel> Servico{ get; set; }
 
     }

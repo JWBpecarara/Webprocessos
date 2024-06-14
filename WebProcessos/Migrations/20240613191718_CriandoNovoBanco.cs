@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace WebProcessos.Migrations
 {
     /// <inheritdoc />
-    public partial class ExcluidoEtapa2 : Migration
+    public partial class CriandoNovoBanco : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,6 +22,7 @@ namespace WebProcessos.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CPF = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Telefone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Senha = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Excluido = table.Column<bool>(type: "bit", nullable: false),
                     UsuarioId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -35,8 +37,8 @@ namespace WebProcessos.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ServicoID = table.Column<int>(type: "int", nullable: false),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UsuarioID = table.Column<int>(type: "int", nullable: false),
                     Excluido = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -45,20 +47,36 @@ namespace WebProcessos.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EtapaPasadaModel",
+                name: "OrdemServico",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EtapaID = table.Column<int>(type: "int", nullable: false),
-                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ServicoVinID = table.Column<int>(type: "int", nullable: false),
-                    Excluido = table.Column<bool>(type: "bit", nullable: false)
+                    Preco = table.Column<float>(type: "real", nullable: false),
+                    Excluido = table.Column<bool>(type: "bit", nullable: false),
+                    ServicoID = table.Column<int>(type: "int", nullable: false),
+                    ClienteID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EtapaPasadaModel", x => x.Id);
+                    table.PrimaryKey("PK_OrdemServico", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrdemServico_Etapa",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrdemServicoID = table.Column<int>(type: "int", nullable: false),
+                    EtapaID = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DataFinalizado = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrdemServico_Etapa", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -68,30 +86,13 @@ namespace WebProcessos.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NomeServico = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Preco = table.Column<float>(type: "real", nullable: false),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Excluido = table.Column<bool>(type: "bit", nullable: false)
+                    Excluido = table.Column<bool>(type: "bit", nullable: false),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Servico", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ServicoVinculado",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ServicoID = table.Column<int>(type: "int", nullable: false),
-                    ClienteID = table.Column<int>(type: "int", nullable: false),
-                    Excluido = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ServicoVinculado", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -125,13 +126,13 @@ namespace WebProcessos.Migrations
                 name: "Etapa");
 
             migrationBuilder.DropTable(
-                name: "EtapaPasadaModel");
+                name: "OrdemServico");
+
+            migrationBuilder.DropTable(
+                name: "OrdemServico_Etapa");
 
             migrationBuilder.DropTable(
                 name: "Servico");
-
-            migrationBuilder.DropTable(
-                name: "ServicoVinculado");
 
             migrationBuilder.DropTable(
                 name: "Usuario");

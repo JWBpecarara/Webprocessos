@@ -11,11 +11,10 @@ namespace WebProcessos.Repositorio
             _bancoContext = bancoContext;
         }
 
-        public int adicionar(ServicoModel Servico)
+        public void adicionar(ServicoModel Servico)
         {
             _bancoContext.Servico.Add(Servico);
             _bancoContext.SaveChanges();
-            return Servico.Id;
         }
 
         public ServicoModel Atualizar(ServicoModel Servico)
@@ -26,7 +25,6 @@ namespace WebProcessos.Repositorio
             if (ServicoModelDB == null) throw new System.Exception("Erro na atulização do cliente");
 
             ServicoModelDB.NomeServico = Servico.NomeServico;
-            ServicoModelDB.Preco = Servico.Preco;
             ServicoModelDB.Descricao = Servico.Descricao;
 
             _bancoContext.Servico.Update(ServicoModelDB);

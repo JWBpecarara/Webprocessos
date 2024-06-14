@@ -17,9 +17,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 builder.Services.AddScoped<IEtapaRepositorio, EtapaRepositorio>();
-builder.Services.AddScoped<IEtapaPasadaRepositorio, EtapaPasadaRepositorio>();
 builder.Services.AddScoped<IServicoRepositorio, ServicoRepositorio>();
-builder.Services.AddScoped<IVincularServico, VincularServico>();
 
 
 builder.Services.AddScoped<ISessao, Sessao>();

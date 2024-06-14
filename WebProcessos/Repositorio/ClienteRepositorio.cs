@@ -62,20 +62,7 @@ namespace WebProcessos.Repositorio
 
         public ClienteModel GetByServicoVinculado(int Id)
         {
-            var clienteId = (from s in _bancoContext.ServicoVinculado
-                             join c in _bancoContext.Cliente on s.ClienteID equals c.Id
-                             where s.Id == Id
-                             select new ClienteModel()
-                             {
-                                Id = c.Id, 
-                                Nome = c.Nome,
-                                SobreNome = c.SobreNome,
-                                Email = c.Email,
-                                CPF = c.CPF,
-                                Telefone = c.Telefone
-                             }).FirstOrDefault();
-
-            return clienteId; 
+            throw new NotImplementedException();
         }
     }
 }

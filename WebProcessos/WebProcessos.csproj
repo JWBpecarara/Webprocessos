@@ -7,16 +7,39 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="bin\**" />
+    <Compile Remove="obj\**" />
+    <Content Remove="bin\**" />
+    <Content Remove="obj\**" />
+    <EmbeddedResource Remove="bin\**" />
+    <EmbeddedResource Remove="obj\**" />
+    <None Remove="bin\**" />
+    <None Remove="obj\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Models\UsuarioCadastroViewModel.cs" />
-    <Compile Remove="Views\Login\Cadastro.cshtml.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Views\CadastroUsuario\Cadastro.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Views\CadastroUsuario\Cadastro.cshtml.css" />
+    <None Include="Views\CadastroUsuario\Cadastro.cshtml" />
+    <None Include="Views\CadastroUsuario\CadastroUsuario.cshtml" />
+    <None Include="Views\Cliente\ClienteModal.cshtml" />
+    <None Include="Views\Cliente\ExibirModal.cshtml" />
+    <None Include="Views\Cliente\Index.cshtml" />
+    <None Include="Views\Cliente\ModalExcluir.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Home\Privacy.cshtml" />
+    <None Include="Views\Login\Login.cshtml" />
+    <None Include="Views\Servico\Index.cshtml" />
+    <None Include="Views\Servico\ModalExcluir.cshtml" />
+    <None Include="Views\Shared\Components\Menu\Default.cshtml" />
+    <None Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Shared\_LayoutDeslogado.cshtml" />
+    <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="Views\_ViewImports.cshtml" />
+    <None Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,10 +56,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

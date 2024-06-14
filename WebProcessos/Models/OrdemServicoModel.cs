@@ -3,18 +3,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebProcessos.Models
 {
-    public class ServicoVinculadoModel
+    public class OrdemServicoModel
     {
         [Key]
         public int Id { get; set; }
-        public string Descricao { get; set; }
         public string Status { get; set; }
+        public float Preco { get; set; }
+        public bool Excluido { get; set; }
         public int ServicoID { get; set; }
         [ForeignKey("ServicoID")]
-        public virtual ServicoModel ServicoModel { get; }
+        public virtual ServicoModel Servico { get; }
         public int ClienteID { get; set; }
         [ForeignKey("ClienteID")]
-        public bool Excluido { get; set; }
-        public virtual ClienteModel ClienteModel { get;}
+        public virtual ClienteModel Cliente { get; }
     }
 }

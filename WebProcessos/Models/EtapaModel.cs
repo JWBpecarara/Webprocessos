@@ -8,18 +8,10 @@ namespace WebProcessos.Models
         [Key]
         public int Id { get; set; }
         public string? Nome { get; set; }
-        public string? Descricao { get; set; }
-        public int ServicoID { get; set; }
-        [ForeignKey("ServicoID")]
-        public virtual ServicoModel ServicoModel { get; }
+        public int UsuarioID { get; set; }
+        [ForeignKey("UsuarioID")]
+        public virtual UsuarioModel UsuarioModel { get; }
         public bool Excluido { get; set; }
-        [NotMapped]
-        public string? status { get; set; }
-        [NotMapped]
-        public int  ServicoVinID { get; set; }
-        [NotMapped]
-        public int? EtapaPasadaID { get; set; }
-
 
     }
 }

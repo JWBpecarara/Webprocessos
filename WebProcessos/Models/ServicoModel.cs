@@ -8,7 +8,6 @@ namespace WebProcessos.Models
         [Key]
         public int Id { get; set; }
         public string NomeServico { get; set; }
-        public float Preco { get; set; }
         public string Descricao { get; set; }
         public bool Excluido { get; set; }
         public int UsuarioId { get; set; }

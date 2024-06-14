@@ -1,71 +1,84 @@
 ﻿@model ViewModelServico
 @{
-	ViewData["Title"] = "Lista de Servico";
+    ViewData["Title"] = "Lista de Servico";
 }
 
 <div id="divPrincipal" class="container mt-5">
+    <h2 class="mb-4">Lista de Servico</h2>
+    <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#ServicoModal"><span>Adicionar Novo Servico</span></button>
+    <div id="divTable">
+        <table class="table table-bordered table-striped">
+            <thead class="bg-primary text-white">
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Preco</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ListaServico != null && Model.ListaServico.Any())
+                {
+                    foreach (var servico in Model.ListaServico)
+                    {
+                        <tr>
+                            <td>@servico.Id</td>
+                            <td>@servico.NomeServico</td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalEditar" data-id="@servico.Id">Editar</button>
+                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#modalExcluir" data-id="@servico.Id">Excluir</button>
+                            </td>
+                        </tr>                    
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
 
-	<h2 class="mb-4">Lista de Servico</h2>
-	<a class="btn btn-success mb-3" asp-area="" asp-controller="Servico" asp-action="ServicoCadastro"><i class="bi bi-clipboard2-plus me-3"></i><span>Novo Serviço</span></a>
-	<div id="divTable">
-		<table class="table table-bordered table-striped">
-			<thead class="bg-primary text-white">
-				<tr>
-					<th>ID</th>
-					<th>Nome</th>
-					<th>Preco</th>
-					<th>Ações</th>
-				</tr>
-			</thead>
-			<tbody>
-				@if (Model.ListaServico != null && Model.ListaServico.Any())
-				{
-					foreach (var servico in Model.ListaServico)
-					{
-						<tr>
-							<td>@servico.Id</td>
-							<td>@servico.NomeServico</td>
-							<td>@servico.Preco</td>
-							<td>
-								<button type="button" class="btn btn-sm btn-primary btn-editar" data-id="@servico.Id">Editar</button>
-								<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#modalExcluir" data-id="@servico.Id">Excluir</button>
-							</td>
-						</tr>					
-					}
-				}
-			</tbody>
-		</table>
-	</div>
+    <div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="excluirUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content danger">
+                <div id="excluirUserModalContent"></div>
+            </div>
+        </div>
+    </div>
 
-	<div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="excluirUserModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content danger">
+    <div class="modal fade" id="ServicoModal" tabindex="-1" aria-labelledby="addServicoModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="addServicoModalContent"></div>
+            </div>
+        </div>
+    </div>
 
-				<div id="excluirUserModalContent"></div>
-			</div>
-		</div>
-	</div>
-
+    <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="editarServicoModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="editarServicoModalContent"></div>
+            </div>
+        </div>
+    </div>
 </div>
 
-
 @section scripts{
-	<script>
+    <script>
+        $('#modalExcluir').on('shown.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var id = button.data('id');
+            var url = '@Url.Action("ModalExcluir", "Servico")' + '?id=' + id;
+            $('#excluirUserModalContent').load(url);
+        });
 
-		$('#modalExcluir').on('shown.bs.modal', function (event) {
-			var button = $(event.relatedTarget);
-			var id = button.data('id');
+        $('#ServicoModal').on('shown.bs.modal', function (event) {
+            var url = '@Url.Action("ServicoModal", "Servico")';
+            $('#addServicoModalContent').load(url);
+        });
 
-			var url = '@Url.Action("ModalExcluir", "Servico")' + '?id=' + id;
-			$('#excluirUserModalContent').load(url);
-		});
-
-		$(document).on('click', '.btn-editar', function () {
-			var button = $(this);
-			var id = button.data('id');
-    
-			var url = '@Url.Action("Editar", "Servico")' + '?id=' + id;
-			window.location.href = url; 
-		});
-	</script>
+        $('#modalEditar').on('shown.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var id = button.data('id');
+            var url = '@Url.Action("Editar", "Servico")' + '?id=' + id;
+            $('#editarServicoModalContent').load(url);
+        });
+    </script>
 }

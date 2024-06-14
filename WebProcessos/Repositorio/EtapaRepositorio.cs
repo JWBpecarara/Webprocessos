@@ -42,31 +42,6 @@ namespace WebProcessos.Repositorio
             throw new NotImplementedException();
         }
 
-        public List<EtapaModel> GetByServicoID(int ServicoID)
-        {
-            return _bancoContext.Etapa.Where(x => x.ServicoID == ServicoID && x.Excluido == false).ToList();
-        }
 
-        public List<EtapaModel> GetEtapasVinculada(int ServicoID, int ServicovinID)
-        {
-            List<EtapaModel> query = (from s in _bancoContext.ServicoVinculado
-                                        join e in _bancoContext.Etapa on s.ServicoID equals e.ServicoID
-                                        join ep in _bancoContext.EtapaPasadaModel
-                                            on new { EtapaID = e.Id, ServicoVinID = ServicovinID } equals new { EtapaID = ep.EtapaID, ep.ServicoVinID }
-                                            into epJoin
-                                      from ep in epJoin.DefaultIfEmpty()
-                                      where s.ServicoID == ServicoID && e.Excluido == false && s.Excluido == false && s.Id == ServicovinID
-                                      select new EtapaModel()
-                                        {
-                                            Id = e.Id,
-                                            Nome = e.Nome,
-                                            Descricao = e.Descricao,    
-                                            status = ep.Status != null || ep.Status == "" ? ep.Status : "Sem status",
-                                            EtapaPasadaID = ep.Id,
-                                            ServicoVinID = s.Id,
-                                            ServicoID = ServicoID,
-                                        }).ToList();
-            return query;
-        }
     }
 }

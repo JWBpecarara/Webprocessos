@@ -1,5 +1,66 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<ViewModelOS>
 @{
+	ViewData["Title"] = "Lista de Servico";
+}
+
+<div id="divPrincipal" class="container mt-5">
+	<h2 class="mb-4">Lista de Servico</h2>
+	<a class="btn btn-success mb-3" asp-area="" asp-controller="OrdemServico" asp-action="OrdemServico">
+		<i class="bi bi-clipboard2-plus me-3"></i><span>Gerar Ordem de Serviço</span>
+	</a>
+	<div id="divTable">
+		<table class="table table-bordered table-striped">
+			<thead class="bg-primary text-white">
+				<tr>
+					<th>Cliente</th>
+					<th>CPF</th>
+					<th>Telefone</th>
+					<th>Serviço</th>
+					<th>Preço</th>
+					<th>Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				@if (Model != null && Model.Any())
+				{
+					foreach (var OS in Model)
+					{
+						<tr>
+							<td>@OS.NomeCliente</td>
+							<td>@OS.CPF</td>
+							<td>@OS.Telefone</td>
+							<td>@OS.NomeServico</td>
+							<td>@OS.Preco</td>
+							<td>
+								<a asp-controller="OrdemServico" asp-action="Gerenciamento" asp-route-IDOrdemServico="@OS.OsId" class="btn btn-sm btn-primary btn-gerenciar">Gerenciar</a>
+								<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#modalExcluir" data-id="@OS.OsId">Excluir</button>
+							</td>
+						</tr>
+					}
+				}
+			</tbody>
+		</table>
+	</div>
+
+	<div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="excluirUserModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content danger">
+				<div id="excluirUserModalContent"></div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+
+@section scripts{
+<script>
+	$('#modalExcluir').on('shown.bs.modal', function (event) {
+		var button = $(event.relatedTarget);
+		var id = button.data('id');
+		var url = '@Url.Action("ModalExcluirOS", "OrdemServico")' + '?id=' + id;
+		$('#excluirUserModalContent').load(url);
+	});
+</script>
 }

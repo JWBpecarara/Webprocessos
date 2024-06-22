@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using WebProcessos.Data;
 using WebProcessos.Repositorio;
 using WebProcessos.Uteis;
@@ -18,11 +17,12 @@ builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 builder.Services.AddScoped<IEtapaRepositorio, EtapaRepositorio>();
 builder.Services.AddScoped<IServicoRepositorio, ServicoRepositorio>();
-
+builder.Services.AddScoped<IOrdemServicoRepositorio, OrdemServicoRepositorio>();
+builder.Services.AddScoped<IOrdemServico_EtapaRepositorio, OrdemServico_EtapaRepositorio>();
 
 builder.Services.AddScoped<ISessao, Sessao>();
 
-builder.Services.AddSession(x => { 
+builder.Services.AddSession(x => {
     x.Cookie.HttpOnly = true;
     x.Cookie.IsEssential = true;
 });
@@ -30,12 +30,11 @@ builder.Services.AddSession(x => {
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
+#if DEBUG
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
-}
+#endif
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

@@ -1,0 +1,88 @@
+﻿@model ViewModelGerenciamento
+@{
+	ViewData["Title"] = "Gerenciamento";
+}
+
+<div class="container mt-5">
+	<div id="divPrincipal" class="row">
+		<h2 class="mb-4">Etapas</h2>
+		<br>
+		<div class="row">
+			<div class="col-md-6">
+				<label for="Nome Cliente" class="form-label">Nome Cliente</label>
+				<input type="text" class="form-control" value="@Model.ClienteNome" readonly>
+			</div>
+			<div class="col-md-3">
+				<label for="CPF" class="form-label">CPF</label>
+				<input type="text" value="@Model.CPF" class="form-control" readonly>
+			</div>
+			<div class="col-md-3">
+				<label for="Telefone" class="form-label">Telefone</label>
+				<input type="text" value='@Model.Telefone' class="form-control" readonly>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<label for="Nome serviço" class="form-label">Serviço</label>
+				<input type="text" value='@Model.ServicoNome' class="form-control" readonly>
+			</div>
+			<div class="col-md-6">
+				<label for="Preço" class="form-label">Preço</label>
+				<input type="number" value='@Model.Preco' class="form-control" readonly>
+			</div>
+		</div>
+
+		<div class="col-md-12 mt-4">
+			<table id="divTable" class="table table-bordered table-striped">
+				<thead class="bg-primary text-white">
+					<tr>
+						<th>Nome</th>
+						<th>Ações</th>
+					</tr>
+				</thead>
+				<tbody>
+					@if (Model.ListEtapas != null && Model.ListEtapas.Any())
+					{
+						foreach (EtapaGerenciamento Etap in Model.ListEtapas)
+						{
+							var statusClass = Etap.Status == "vigente" ? "status-vigente" : (Etap.Status == "finalizado" ? "status-finalizado" : "");
+							<tr class="@statusClass">
+								<td>@Etap.EtapaNome</td>
+								<td>
+									<div>
+										<form asp-controller="OrdemServico" asp-action="Vigente" method="post" class="d-inline">
+											<input type="hidden" name="Id" asp-for="@Etap.OrdemServico_EtapaID" />
+											<button type="submit" class="btn btn-sm btn-success">Vigente</button>
+										</form>
+										<form asp-controller="OrdemServico" asp-action="Finalizar" method="post" class="d-inline">
+											<input type="hidden" name="Id" asp-for="@Etap.OrdemServico_EtapaID" />
+											<button type="submit" class="btn btn-sm btn-danger">Finalizado</button>
+										</form>
+										<form asp-controller="OrdemServico" asp-action="Desvincular" method="post" class="d-inline">
+											<input type="hidden" name="Id" asp-for="@Etap.OrdemServico_EtapaID" />
+											<button type="submit" class="btn btn-sm btn-secondary">Desvincular</button>
+										</form>
+									</div>
+								</td>
+							</tr>
+						}
+					}
+				</tbody>
+			</table>
+		</div>
+
+		<div class="container p-4">
+			<div class="row">
+				<div class="col text-start">
+					<a class="btn btn-lg btn-danger" asp-controller="OrdemServico" asp-action="Index">Sair</a>
+				</div>
+				<div class="col text-end">
+				<form asp-controller="OrdemServico" asp-action="Atualizar" method="post" class="d-inline">
+					<input type="hidden"  name="Id" asp-for="OsId"/>
+					<button type="submit" class="btn btn-lg btn-success">Finalizar serivco</button>
+				</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

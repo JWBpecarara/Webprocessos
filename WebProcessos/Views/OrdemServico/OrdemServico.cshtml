@@ -1,0 +1,232 @@
+﻿@model ViewModelOrdemServico
+
+@{
+    ViewData["Title"] = "Cadastro de Ordem de Serviço";
+}
+
+<input type="hidden" />
+<div id="divPrincipal" class="container mt-5">
+    <form asp-controller="OrdemServico" asp-action="AddNewOS" method="post">
+        <h2>Cadastro de Ordem de Serviço</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="Cliente" class="form-label">Cliente</label>
+                    <select class="form-select" id="Cliente" name="Cliente">
+                        <option value="0">Selecione um Cliente</option>
+                        @if (Model.ListCliente != null && Model.ListCliente.Any())
+                        {
+                            foreach (var cliente in Model.ListCliente)
+                            {
+                                <option value="@cliente.Id">@cliente.Nome @cliente.SobreNome</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="Servico" class="form-label">Nome do Serviço</label>
+                    <select class="form-select" id="Servico" name="Servico">
+                        <option value="0">Selecione um serviço</option>
+                        @if (Model.ListServico != null && Model.ListServico.Any())
+                        {
+                            foreach (var servico in Model.ListServico)
+                            {
+                                <option value="@servico.Id">@servico.NomeServico</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="preco" class="form-label">Valor do Serviço</label>
+                    <input type="text" class="form-control" id="preco" name="Preco" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-3">
+                <label for="Descricao" class="form-label">Observação</label>
+                <textarea class="form-control" id="Observacao" name="Observacao" rows="3"></textarea>
+            </div>
+        </div>
+
+        <div class="container mt-5">
+            <div id="divPrincipal" class="row">
+                <div class="col-12 text-end mb-3">
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addEtapaModal">Adicionar Etapa</button>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            Lista de Etapas
+                        </div>
+                        <div class="card-body">
+                            <table id="divTable" class="table table-bordered table-striped">
+                                <thead class="bg-primary text-white">
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="etapaTableBody">
+                                    <!-- Etapas serão carregadas aqui -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            Lista de Etapas Adicionadas
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-1">
+                                <input type="text" class="form-control" id="searchEtapa" placeholder="Buscar etapa..." onkeyup="filterEtapas()" />
+                            </div>
+                            <table id="divTable2" class="table table-bordered table-striped">
+                                <thead class="bg-primary text-white">
+                                    <tr>
+                                        <th>Nome da Etapa</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="etapaTableBody2">
+                                    @if (Model.ListEtapa != null && Model.ListEtapa.Any())
+                                    {
+                                        foreach (var Etapa in Model.ListEtapa)
+                                        {
+                                            <tr data-id="@Etapa.Id">
+                                                <td>@Etapa.Nome</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-primary" onclick="addEtapa(@Etapa.Id, '@Etapa.Nome')">Adicionar</button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                            <nav>
+                                <ul class="pagination justify-content-center" id="pagination">
+                                    <!-- Paginação será carregada aqui -->
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="hiddenEtapasContainer"></div>
+        <div class="container p-4">
+            <div class="row">
+                <div class="col text-start">
+                    <a class="btn btn-lg btn-danger" asp-area="" asp-controller="Servico" asp-action="Index">Sair</a>
+                </div>
+                <div class="col text-end">
+                    <button type="submit" class="btn btn-lg btn-success" id="saveButton">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="modal fade" id="addEtapaModal" tabindex="-1" aria-labelledby="addEtapa" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="addEtapa"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    var addedEtapas = new Set();
+
+    $(document).ready(function () {
+        var itemsPerPage = 5; // Número de itens por página
+        var currentPage = 1; // Página atual
+        var totalPages = Math.ceil($('#etapaTableBody2 tr').length / itemsPerPage);
+
+        function showPage(page) {
+            $('#etapaTableBody2 tr').hide();
+            $('#etapaTableBody2 tr').slice((page - 1) * itemsPerPage, page * itemsPerPage).show();
+        }
+
+        function updatePagination() {
+            $('#pagination').empty();
+            for (var i = 1; i <= totalPages; i++) {
+                $('#pagination').append('<li class="page-item ' + (i === currentPage ? 'active' : '') + '"><a class="page-link" href="#">' + i + '</a></li>');
+            }
+        }
+
+        $('#pagination').on('click', 'a', function (e) {
+            e.preventDefault();
+            currentPage = parseInt($(this).text());
+            showPage(currentPage);
+            updatePagination();
+        });
+
+        showPage(currentPage);
+        updatePagination();
+
+        $('#saveButton').click(function (e) {
+            e.preventDefault();
+
+            $('#hiddenEtapasContainer').empty();
+            $('#etapaTableBody tr').each(function (index) {
+                var etapaId = $(this).data('id');
+                var etapaNome = $(this).find('td:first').text();
+                $('#hiddenEtapasContainer').append(
+                    '<input type="hidden" name="EtapasOS[' + index + '].Id" value="' + etapaId + '" />' +
+                    '<input type="hidden" name="EtapasOS[' + index + '].Nome" value="' + etapaNome + '" />'
+                );
+            });
+
+            $(this).closest('form').submit();
+        });
+
+        $('#addEtapaModal').on('shown.bs.modal', function (event) {
+            var url = '@Url.Action("tapaModal", "OrdemServico")';
+            $('#addEtapa').load(url);
+        });
+    });
+
+    function addEtapa(id, nome) {
+        if (!addedEtapas.has(id)) {
+            var row = '<tr data-id="' + id + '"><td>' + nome + '</td><td><button type="button" class="btn btn-sm btn-danger" onclick="removeEtapa(' + id + ', \'' + nome + '\')">Excluir</button></td></tr>';
+            $('#etapaTableBody').append(row);
+            addedEtapas.add(id);
+            $('#etapaTableBody2 tr[data-id=' + id + ']').remove();
+            updatePagination();
+            showPage(currentPage);
+        }
+    }
+
+    function removeEtapa(id, nome) {
+        $('#etapaTableBody tr[data-id=' + id + ']').remove();
+        addedEtapas.delete(id);
+        var row = '<tr data-id="' + id + '"><td>' + nome + '</td><td><button type="button" class="btn btn-sm btn-primary" onclick="addEtapa(' + id + ', \'' + nome + '\')">Adicionar</button></td></tr>';
+        $('#etapaTableBody2').append(row);
+        updatePagination();
+        showPage(currentPage);
+    }
+
+    function filterEtapas() {
+        var filter = $('#searchEtapa').val().toLowerCase();
+        $('#etapaTableBody2 tr').each(function () {
+            var etapaNome = $(this).find('td:first').text().toLowerCase();
+            if (etapaNome.includes(filter)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+        updatePagination();
+        showPage(currentPage);
+    }
+</script>
+}

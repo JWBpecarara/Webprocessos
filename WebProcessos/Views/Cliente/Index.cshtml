@@ -1,158 +1,149 @@
 ﻿@model ViewModelCliente
 
 @{
-	ViewData["Title"] = "Lista de Usuários";
+    ViewData["Title"] = "Lista de Usuários";
 }
-
 
 <div id="divPrincipal" class="container mt-5">
+    <h2 class="mb-4">Lista de Clientes</h2>
+    <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addUserModal">
+        <i class="bi bi-person-fill-add me-3"></i><span>Adicionar Novo Cliente</span>
+    </button>
+    <div id="divTable" class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="bg-primary text-white">
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Sobrenome</th>
+                    <th>CPF</th>
+                    <th>Email</th>
+                    <th>Telefone</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ListaClientes != null && Model.ListaClientes.Any())
+                {
+                    foreach (ClienteModel cliente in Model.ListaClientes)
+                    {
+                        <tr>
+                            <td>@cliente.Id</td>
+                            <td>@cliente.Nome</td>
+                            <td>@cliente.SobreNome</td>
+                            <td>@cliente.CPF</td>
+                            <td>@cliente.Email</td>
+                            <td>@cliente.Telefone</td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editarUserModal" data-id="@cliente.Id">Editar</button>
+                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#modalExcluir" data-id="@cliente.Id">Excluir</button>
+                                <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#ExibirModal" data-id="@cliente.Id">Exibir senha</button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
 
-	<h2 class="mb-4">Lista de Clientes</h2>
-	<button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addUserModal"><i class="bi bi-person-fill-add me-3"></i><span>Adicionar Novo Clientes</span></button>
-	<div id="divTable">
-		<table class="table table-bordered table-striped">
-			<thead class="bg-primary text-white">
-				<tr>
-					<th>ID</th>
-					<th>Nome</th>
-					<th>SobreNome</th>
-					<th>CPF</th>
-					<th>Email</th>
-					<th>Telefone</th>
-					<th>Ações</th>
-				</tr>
-			</thead>
-			<tbody>
-				@if (Model.ListaClientes != null && Model.ListaClientes.Any())
-				{
-					foreach (ClienteModel cliente in Model.ListaClientes)
-					{
-						<tr>
-							<td>@cliente.Id</td>
-							<td>@cliente.Nome</td>
-							<td>@cliente.SobreNome</td>
-							<td>@cliente.CPF</td>
-							<td>@cliente.Email</td>
-							<td>@cliente.Telefone</td>
-							<td>
-								<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editarUserModal" data-id="@cliente.Id">Editar</button>
-								<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#modalExcluir" data-id="@cliente.Id">Excluir</button>
-								<button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#ExibirModal" data-id="@cliente.Id">Exibir senha</button>
-							</td>
-						</tr>
-					}
-				}
+    <!-- Modal de Adicionar Novo Funcionário -->
+    <form asp-controller="Cliente" asp-action="Criar" method="post">
+        <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addUserModalLabel">Adicionar Novo Cliente</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="nome" class="form-label">Nome</label>
+                                    <input type="text" class="form-control" asp-for="Cliente.Nome" placeholder="Digite seu nome">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="sobrenome" class="form-label">Sobrenome</label>
+                                    <input type="text" class="form-control" asp-for="Cliente.SobreNome" placeholder="Digite seu sobrenome">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Cpf" class="form-label">CPF</label>
+                            <input type="text" class="form-control" asp-for="Cliente.CPF" placeholder="Cpf do usuário">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" class="form-control" asp-for="Cliente.Email" placeholder="Email do usuário">
+                        </div>
+                        <div class="mb-3">
+                            <label for="Telefone" class="form-label">Telefone</label>
+                            <input type="text" class="form-control" asp-for="Cliente.Telefone" placeholder="Telefone do usuário">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-success">Adicionar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 
-			</tbody>
-		</table>
-	</div>
+    <!-- Modal Editar Funcionário -->
+    <div class="modal fade" id="editarUserModal" tabindex="-1" aria-labelledby="editarUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div id="editarUserModalContent"></div>
+            </div>
+        </div>
+    </div>
 
-	<!-- Modal de Adicionar Novo Funcionário -->
-	<form asp-controller="Cliente" asp-action="Criar" method="post">
-		<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="addUserModalLabel">Adicionar Novo Usuários</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<div class="row">
-							<div class="col-md-6">
-								<div class="mb-3">
-									<label for="nome" class="form-label">Nome</label>
-									<input type="text" class="form-control" asp-for="Cliente.Nome" placeholder="Digite seu nome">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="mb-3">
-									<label for="sobrenome" class="form-label">Sobrenome</label>
-									<input type="text" class="form-control" asp-for="Cliente.SobreNome" placeholder="Digite seu sobrenome">
-								</div>
-							</div>
-						</div>
-						<div class="mb-3">
-							<label for="Cpf" class="form-label">CPF</label>
-							<input type="text" class="form-control" asp-for="Cliente.CPF" placeholder="Cpf do usuário">
-						</div>
-						<div class="mb-3">
-							<label for="email" class="form-label">Email</label>
-							<input type="text" class="form-control" asp-for="Cliente.Email" placeholder="Email do usuário">
-						</div>
-						<div class="mb-3">
-							<label for="Telefone" class="form-label">Telefone</label>
-							<input type="text" class="form-control" asp-for="Cliente.Telefone" placeholder="Telefone do usuário">
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-						<button type="submit" class="btn btn-success" data-bs-dismiss="modal">Adicionar</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</form>
+    <!-- Modal Exibir Senha -->
+    <div class="modal fade" id="ExibirModal" tabindex="-1" aria-labelledby="ExibirModallContent" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div id="ExibirModallContent"></div>
+            </div>
+        </div>
+    </div>
 
-
-	<!-- Modal Editar Funcionário -->
-	<div class="modal fade" id="editarUserModal" tabindex="-1" aria-labelledby="editarUserModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-
-				<div id="editarUserModalContent"></div>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="ExibirModal" tabindex="-1" aria-labelledby="ExibirModallContent" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-
-				<div id="ExibirModallContent"></div>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="excluirUserModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content danger">
-
-				<div id="excluirUserModalContent"></div>
-			</div>
-		</div>
-	</div>
-
+    <!-- Modal Excluir -->
+    <div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="excluirUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content danger">
+                <div id="excluirUserModalContent"></div>
+            </div>
+        </div>
+    </div>
 </div>
 
-
-@section scripts{
+@section scripts {
 <script>
+    $('#editarUserModal').on('shown.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var id = button.data('id');
 
-	$('#editarUserModal').on('shown.bs.modal', function (event) {
-		var button = $(event.relatedTarget);
-		var id = button.data('id');
+        var url = '@Url.Action("Editar", "Cliente")' + '?id=' + id;
+        $('#editarUserModalContent').load(url);
+    });
 
-		var url = '@Url.Action("Editar", "Cliente")' + '?id=' + id;
-		$('#editarUserModalContent').load(url);
-	});
+    $('#modalExcluir').on('shown.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var id = button.data('id');
 
-	$('#modalExcluir').on('shown.bs.modal', function (event) {
-		var button = $(event.relatedTarget);
-		var id = button.data('id');
+        var url = '@Url.Action("ModalExcluir", "Cliente")' + '?id=' + id;
+        $('#excluirUserModalContent').load(url);
+    });
 
-		var url = '@Url.Action("ModalExcluir", "Cliente")' + '?id=' + id;
-		$('#excluirUserModalContent').load(url);
-	});
+    $('#ExibirModal').on('shown.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var id = button.data('id');
 
-	$('#ExibirModal').on('shown.bs.modal', function (event) {
-		var button = $(event.relatedTarget);
-		var id = button.data('id');
-
-		var url = '@Url.Action("ExibirModal", "Cliente")' + '?id=' + id;
-		$('#ExibirModallContent').load(url);
-	});
-
+        var url = '@Url.Action("ExibirModal", "Cliente")' + '?id=' + id;
+        $('#ExibirModallContent').load(url);
+    });
 </script>
 }
-
-

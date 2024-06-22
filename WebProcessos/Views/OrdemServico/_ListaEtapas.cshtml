@@ -1,0 +1,25 @@
+﻿@model IEnumerable<EtapaModel>
+
+<table id="divTable2" class="table table-bordered table-striped">
+    <thead class="bg-primary text-white">
+        <tr>
+            <th>Nome da Etapa</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody id="etapaTableBody2">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var Etapa in Model)
+            {
+                <tr>
+                    <td>@Etapa.Nome</td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-id="@Etapa.Id">Adicionar</button>
+                        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#modalExcluir" data-id="@Etapa.Id">Excluir</button>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

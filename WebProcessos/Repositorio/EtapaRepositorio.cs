@@ -11,18 +11,36 @@ namespace WebProcessos.Repositorio
             _bancoContext = bancoContext;
         }
 
-        public void adicionar(List<EtapaModel> ListaEtapa)
+
+        public void Excluir(int id)
         {
-            foreach (EtapaModel Etapa in ListaEtapa)
-            {
-                _bancoContext.Etapa.Add(Etapa);
-                _bancoContext.SaveChanges();
-            }
+            EtapaModel etapa = GetByID(id);
+
+            if (etapa == null) throw new System.Exception("Erro ao Excluir cliente");
+
+            etapa.Excluido = true;
+
+            _bancoContext.Etapa.Update(etapa);
+            _bancoContext.SaveChanges();
+
         }
 
-        public List<EtapaModel> Buscartodos()
+
+        public EtapaModel GetByID(int Id)
         {
-            return _bancoContext.Etapa.Where(x => x.Excluido == false).ToList();
+            return _bancoContext.Etapa.FirstOrDefault(x => x.Id == Id && x.Excluido == false);
+        }
+
+
+        public void adicionar(EtapaModel Etapa)
+        {
+            _bancoContext.Etapa.Add(Etapa);
+            _bancoContext.SaveChanges();
+        }
+
+        public List<EtapaModel> Buscartodos(int UsuarioID)
+        {
+            return _bancoContext.Etapa.Where(x => x.Excluido == false && x.UsuarioID == UsuarioID).ToList();
         }
 
 

@@ -1,0 +1,19 @@
+﻿@model EtapaModel
+
+@{
+	ViewData["Title"] = "Adicionar Etapa";
+}
+
+<form asp-controller="OrdemServico" asp-action="addEtapa" method="post">
+	<div class="modal-header">
+		<h5 class="modal-title" id="addEtapaModalLabel">Adicionar Nova Etapa</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	</div>
+	<div class="modal-body">
+		<div class="mb-3">
+			<input type="text" class="form-control" id="EtapaNome" asp-for="Nome" placeholder="Nome da etapa" />
+		</div>
+		<button type="submit" id="addEtapaButton" class="btn btn-success">Adicionar</button>
+	</div>
+</form>
+

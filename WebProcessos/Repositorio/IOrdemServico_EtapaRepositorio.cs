@@ -7,5 +7,6 @@ namespace WebProcessos.Repositorio
 		public void adicionar(List<OrdemServico_EtapaModel> OE, int OrdemServicoID);
 		OrdemServico_EtapaModel GetByID(int id);
         void Atualizar(OrdemServico_EtapaModel etapa);
+        bool Vigente(int ordemServicoID);
     }
 }

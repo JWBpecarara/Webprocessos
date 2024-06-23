@@ -33,3 +33,7 @@ h2 {
 .modal-content.danger .modal-footer {
     border-top: none; /* Removendo a borda superior do rodapé */
 }
+
+.status-finalizado {
+    background-color: #e08585;
+}

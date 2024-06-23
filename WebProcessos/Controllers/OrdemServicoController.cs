@@ -18,7 +18,7 @@ namespace WebProcessos.Controllers
         private readonly ISessao _sessao;
 
         private static List<EtapaModel> _listaEtapaCadastrada = new List<EtapaModel>();
-        private static int _idpagina ;
+        private static int _idpagina;
 
 
 
@@ -40,7 +40,7 @@ namespace WebProcessos.Controllers
 
             UsuarioModel Usuario = _sessao.BuscarSessaoDeUsuario();
 
-            var os =  _OrdemServico.OsLIST(Usuario.Id);
+            var os = _OrdemServico.OsLIST(Usuario.Id);
             return View(os);
         }
 
@@ -102,8 +102,8 @@ namespace WebProcessos.Controllers
         {
             return PartialView("AddEtapaModal");
         }
-       
-        
+
+
         [HttpPost]
         public IActionResult addEtapa(EtapaModel Etapa)
         {
@@ -141,8 +141,8 @@ namespace WebProcessos.Controllers
 
             int OrdemServicoID = _OrdemServico.adicionar(os);
 
-			if (model.EtapasOS == null)
-            return RedirectToAction("Index");
+            if (model.EtapasOS == null)
+                return RedirectToAction("Index");
 
 
             _OrdemServico_EtapaRepositorio.adicionar(model.EtapasOS, OrdemServicoID);
@@ -154,19 +154,23 @@ namespace WebProcessos.Controllers
         [HttpPost]
         public IActionResult Vigente(int Id)
         {
-            OrdemServico_EtapaModel  etapa = _OrdemServico_EtapaRepositorio.GetByID(Id); 
+            OrdemServico_EtapaModel etapa = _OrdemServico_EtapaRepositorio.GetByID(Id);
+            bool existVigente = _OrdemServico_EtapaRepositorio.Vigente(etapa.OrdemServicoID);
 
-            if (etapa.Status != "finalizado" && etapa.Status != "vigente")
+            if (existVigente)
             {
+                if (etapa.Status != "finalizado" && etapa.Status != "vigente")
+                {
 
-                etapa.Status = "vigente";
+                    etapa.Status = "vigente";
 
-                _OrdemServico_EtapaRepositorio.Atualizar(etapa);
+                    _OrdemServico_EtapaRepositorio.Atualizar(etapa);
 
+                    return RedirectToAction("Gerenciamento", _idpagina);
+                }
                 return RedirectToAction("Gerenciamento", _idpagina);
             }
             return RedirectToAction("Gerenciamento", _idpagina);
-
         }
 
         [HttpPost]
@@ -199,7 +203,6 @@ namespace WebProcessos.Controllers
 
                 return RedirectToAction("Gerenciamento", _idpagina);
             }
-
             return RedirectToAction("Gerenciamento", _idpagina);
         }
 

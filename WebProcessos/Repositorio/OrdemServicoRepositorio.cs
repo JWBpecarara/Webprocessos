@@ -91,7 +91,7 @@ namespace WebProcessos.Repositorio
             List<ViewModelOS> ViewModelOS = (from os in _bancoContext.OrdemServico
                                             join c in _bancoContext.Cliente on os.ClienteID equals c.Id
                                             join s in _bancoContext.Servico on os.ServicoID equals s.Id
-                                            where  os.Excluido == false && c.UsuarioId == UsuarioId && s.UsuarioId == UsuarioId && os.Status != "finalizado"
+                                            where  os.Excluido == false && c.UsuarioId == UsuarioId && s.UsuarioId == UsuarioId 
                                              select new ViewModelOS()
                                             {
                                                 OsId = os.Id,
@@ -99,8 +99,9 @@ namespace WebProcessos.Repositorio
                                                 CPF = c.CPF,
                                                 Telefone = c.Telefone,
                                                 NomeServico  = s.NomeServico,
-                                                Preco = os.Preco
-                                            }).ToList();
+                                                Preco = os.Preco,
+                                                Status = os.Status
+                                             }).ToList();
 
             return ViewModelOS;
         }

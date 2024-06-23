@@ -43,5 +43,10 @@ namespace WebProcessos.Repositorio
 
 		}
 
+        public bool Vigente(int ordemServicoID)
+        {
+			return _bancoContext.OrdemServico_Etapa
+					   .Any(x => x.OrdemServicoID == ordemServicoID && x.Status == "vigente");
+		}
     }
 }

@@ -25,7 +25,8 @@
 				{
 					foreach (var OS in Model)
 					{
-						<tr>
+						var statusClass = OS.Status == "finalizado" ? "status-finalizado" : "";
+						<tr class="@statusClass">
 							<td>@OS.NomeCliente</td>
 							<td>@OS.CPF</td>
 							<td>@OS.Telefone</td>

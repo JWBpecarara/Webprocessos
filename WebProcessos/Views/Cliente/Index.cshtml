@@ -122,12 +122,21 @@
 
 @section scripts {
 <script>
+    $(document).ready(() => {
+	    $("#Cliente_CPF").inputmask("999.999.999-99");
+	    $("#Cliente_Telefone").inputmask("(99) 99999-9999");
+    })
     $('#editarUserModal').on('shown.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var id = button.data('id');
 
         var url = '@Url.Action("Editar", "Cliente")' + '?id=' + id;
         $('#editarUserModalContent').load(url);
+
+        setTimeout(() => {
+	        $("#CPF").inputmask("999.999.999-99");
+	        $("#Telefone").inputmask("(99) 99999-9999");
+        }, 100)
     });
 
     $('#modalExcluir').on('shown.bs.modal', function (event) {

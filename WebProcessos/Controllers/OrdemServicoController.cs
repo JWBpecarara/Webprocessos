@@ -157,7 +157,7 @@ namespace WebProcessos.Controllers
             OrdemServico_EtapaModel etapa = _OrdemServico_EtapaRepositorio.GetByID(Id);
             bool existVigente = _OrdemServico_EtapaRepositorio.Vigente(etapa.OrdemServicoID);
 
-            if (existVigente)
+            if (existVigente == false)
             {
                 if (etapa.Status != "finalizado" && etapa.Status != "vigente")
                 {

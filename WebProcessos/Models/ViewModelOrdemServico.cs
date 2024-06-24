@@ -1,4 +1,7 @@
-﻿namespace WebProcessos.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.RegularExpressions;
+
+namespace WebProcessos.Models
 {
     public class ViewModelOrdemServico
     {
@@ -9,9 +12,9 @@
         public int Servico { get; set; }
         public int Cliente { get; set; }
         public string Observacao { get; set; }
-        public float Preco { get; set; }
+        public float Preco => float.Parse(Regex.Replace(this.PrecoRaw, "[R $]", string.Empty));
 
-
-
+        [NotMapped]
+        public string PrecoRaw { get; set; }
     }
 }

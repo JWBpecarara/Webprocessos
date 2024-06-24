@@ -4,7 +4,7 @@
 }
 
 <div id="divPrincipal" class="container mt-5">
-	<h2 class="mb-4">Lista de Servico</h2>
+	<h2 class="mb-4">Lista de Ordem de Servico</h2>
 	<a class="btn btn-success mb-3" asp-area="" asp-controller="OrdemServico" asp-action="OrdemServico">
 		<i class="bi bi-clipboard2-plus me-3"></i><span>Gerar Ordem de Serviço</span>
 	</a>
@@ -25,13 +25,13 @@
 				{
 					foreach (var OS in Model)
 					{
-						var statusClass = OS.Status == "finalizado" ? "status-finalizado" : "";
+						var statusClass = OS.Status == "Finalizado" ? "status-finalizado" : "";
 						<tr class="@statusClass">
 							<td>@OS.NomeCliente</td>
 							<td>@OS.CPF</td>
 							<td>@OS.Telefone</td>
 							<td>@OS.NomeServico</td>
-							<td>@OS.Preco</td>
+							<td>@OS.Preco.ToString("C2")</td>
 							<td>
 								<a asp-controller="OrdemServico" asp-action="Gerenciamento" asp-route-IDOrdemServico="@OS.OsId" class="btn btn-sm btn-primary btn-gerenciar">Gerenciar</a>
 								<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#modalExcluir" data-id="@OS.OsId">Excluir</button>

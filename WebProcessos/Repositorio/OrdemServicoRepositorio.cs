@@ -67,7 +67,8 @@ namespace WebProcessos.Repositorio
                                                                 CPF = c.CPF,
                                                                 Telefone = c.Telefone,
                                                                 Preco = os.Preco,
-                                                                OsId = os.Id
+                                                                OsId = os.Id,
+                                                                Status = os.Status
                                                             }).First();
 
             List<EtapaGerenciamento> ListEtapas = (from os in _bancoContext.OrdemServico

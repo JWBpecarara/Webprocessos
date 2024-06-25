@@ -50,7 +50,12 @@ namespace WebProcessos.Controllers
         [HttpPost]
         public IActionResult Excluir(ServicoModel servico)
         {
-            _ServicoRepositorio.Excluir(servico);
+            bool ServicoViculado = _ServicoRepositorio.ServicoViculado(servico.Id);
+            if (ServicoViculado == false) {
+
+                _ServicoRepositorio.Excluir(servico);
+                return RedirectToAction("Index");
+            }
             return RedirectToAction("Index");
         }
 

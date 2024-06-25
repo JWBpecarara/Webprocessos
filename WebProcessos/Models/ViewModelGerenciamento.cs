@@ -8,6 +8,7 @@
         public string ClienteNome { get; set; }
         public string CPF { get; set; }
         public string Telefone { get; set; }
+        public string Status { get; set; }
         public float Preco { get; set; }
     }
 }

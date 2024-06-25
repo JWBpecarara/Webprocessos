@@ -83,7 +83,7 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                           Lista de Etapas
+                            Lista de Etapas
                         </div>
                         <div class="card-body">
                             <div class="mb-1">
@@ -105,7 +105,7 @@
                                                 <td>@Etapa.Nome</td>
                                                 <td>
                                                     <button type="button" class="btn btn-sm btn-primary" onclick="addEtapa(@Etapa.Id, '@Etapa.Nome')">Adicionar</button>
-                                                    <button type="button" class="btn btn-sm btn-danger" onclick="ExcluirEtapa(@Etapa.Id)">Excluir</button>
+                                                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#modalExcluir" data-id="@Etapa.Id">Excluir</button>
                                                 </td>
                                             </tr>
                                         }
@@ -138,6 +138,13 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div id="addEtapa"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="excluirUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content danger">
+                <div id="excluirUserModalContent"></div>
             </div>
         </div>
     </div>
@@ -200,7 +207,7 @@
             radixPoint:",",
             groupSeparator: ".",
             allowMinus: false,
-            prefix: "R$ ",            
+            prefix: "R$ ",
             digits: 2,
             digitsOptional: false,
             rightAlign: true,
@@ -222,7 +229,7 @@
     function removeEtapa(id, nome) {
         $('#etapaTableBody tr[data-id=' + id + ']').remove();
         addedEtapas.delete(id);
-        var row = '<tr data-id="' + id + '"><td>' + nome + '</td><td><button type="button" class="btn btn-sm btn-primary" onclick="addEtapa(' + id + ', \'' + nome + '\')">Adicionar</button></td></tr>';
+        var row = '<tr data-id="' + id + '"><td>' + nome + '</td><td><button type="button" class="btn btn-sm btn-primary" onclick="addEtapa(' + id + ', \'' + nome + '\')">Adicionar</button><button type="button" class="btn btn-sm btn-danger" onclick="removeEtapa(' + id + ', \'' + nome + '\')">Excluir</button></td></tr>';
         $('#etapaTableBody2').append(row);
         updatePagination();
         showPage(currentPage);
@@ -241,5 +248,13 @@
         updatePagination();
         showPage(currentPage);
     }
+
+    $('#modalExcluir').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var id = button.data('id');
+        var url = '@Url.Action("ModalExcluir", "OrdemServico")' + '?id=' + id;
+        $('#excluirUserModalContent').load(url);
+    });
 </script>
+
 }

@@ -7,44 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="bin\**" />
-    <Compile Remove="obj\**" />
-    <Content Remove="bin\**" />
-    <Content Remove="obj\**" />
-    <EmbeddedResource Remove="bin\**" />
-    <EmbeddedResource Remove="obj\**" />
-    <None Remove="bin\**" />
-    <None Remove="obj\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Models\UsuarioCadastroViewModel.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="Views\OrdemServico\ModalExcluir.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\CadastroUsuario\Cadastro.cshtml" />
-    <None Include="Views\CadastroUsuario\CadastroUsuario.cshtml" />
-    <None Include="Views\Cliente\ClienteModal.cshtml" />
-    <None Include="Views\Cliente\ExibirModal.cshtml" />
-    <None Include="Views\Cliente\Index.cshtml" />
-    <None Include="Views\Cliente\ModalExcluir.cshtml" />
-    <None Include="Views\Home\Index.cshtml" />
-    <None Include="Views\Home\Privacy.cshtml" />
-    <None Include="Views\Login\Login.cshtml" />
-    <None Include="Views\OrdemServico\ModalExcluir.cshtml" />
-    <None Include="Views\Servico\Index.cshtml" />
-    <None Include="Views\Servico\ModalExcluir.cshtml" />
-    <None Include="Views\Shared\Components\Menu\Default.cshtml" />
-    <None Include="Views\Shared\Error.cshtml" />
-    <None Include="Views\Shared\_Layout.cshtml" />
-    <None Include="Views\Shared\_LayoutDeslogado.cshtml" />
-    <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
-    <None Include="Views\_ViewImports.cshtml" />
-    <None Include="Views\_ViewStart.cshtml" />
+    <EmbeddedResource Include="Views\OrdemServico\ModalExcluir.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

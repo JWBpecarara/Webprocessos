@@ -48,5 +48,11 @@ namespace WebProcessos.Repositorio
 			return _bancoContext.OrdemServico_Etapa
 					   .Any(x => x.OrdemServicoID == ordemServicoID && x.Status == "vigente");
 		}
+
+        public bool DiferenteDeFinalizado(int id)
+        {
+			return _bancoContext.OrdemServico_Etapa
+			   .Any(x => x.OrdemServicoID == id && x.Status != "finalizado");
+		}
     }
 }

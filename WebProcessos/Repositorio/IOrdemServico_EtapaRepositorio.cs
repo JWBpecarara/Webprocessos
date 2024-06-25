@@ -8,5 +8,6 @@ namespace WebProcessos.Repositorio
 		OrdemServico_EtapaModel GetByID(int id);
         void Atualizar(OrdemServico_EtapaModel etapa);
         bool Vigente(int ordemServicoID);
+        bool DiferenteDeFinalizado(int id);
     }
 }

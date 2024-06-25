@@ -58,5 +58,11 @@ namespace WebProcessos.Repositorio
         {
             return _bancoContext.Servico.FirstOrDefault(x => x.Id == Id && x.Excluido == false);
         }
+
+        public bool ServicoViculado(int id)
+        {
+            return _bancoContext.OrdemServico
+                .Any(x => x.ServicoID == id);
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace WebProcessos.Repositorio
         ServicoModel Excluir(ServicoModel Servico);
         ServicoModel GetByID(int Id);
         ServicoModel Atualizar(ServicoModel Servico);
+        bool ServicoViculado(int id);
     }
 }

@@ -45,12 +45,14 @@ namespace WebProcessos.Controllers
         }
 
 
+
         public IActionResult ModalExcluir(int Id)
         {
-            ServicoModel servico = new ServicoModel();
-            servico.Id = Id;
-            return PartialView("ModalExcluir", servico);
+            EtapaModel Etapa = new EtapaModel();
+            Etapa.Id = Id ;
+            return PartialView("ModalExcluir", Etapa);
         }
+
 
         public IActionResult ModalExcluirOS(int Id)
         {
@@ -71,7 +73,7 @@ namespace WebProcessos.Controllers
         public IActionResult ExcluirEtapa(EtapaModel etapa)
         {
             _EtapaRepositorio.Excluir(etapa.Id);
-            return RedirectToAction("Index");
+            return RedirectToAction("OrdemServico");
         }
 
         public IActionResult Gerenciamento(int IDOrdemServico)
@@ -80,7 +82,11 @@ namespace WebProcessos.Controllers
 
             var view = _OrdemServico.GetviewViewGerenciamento(_idpagina);
 
-            return View(view);
+            if (view.Status == "Aprovado")
+            {
+                return View(view);
+            }
+            return RedirectToAction("Index"); 
         }
 
         public IActionResult OrdemServico()
@@ -209,8 +215,16 @@ namespace WebProcessos.Controllers
         [HttpPost]
         public IActionResult Atualizar(int Id)
         {
-            _OrdemServico.Finalizar(Id);
-            return RedirectToAction("Index");
+            bool ExisteDiferenteDeFinalizado = _OrdemServico_EtapaRepositorio.DiferenteDeFinalizado(Id);
+
+            if (ExisteDiferenteDeFinalizado == false)
+            {
+                _OrdemServico.Finalizar(Id);
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Gerenciamento", _idpagina);
+
+
         }
 
     }
